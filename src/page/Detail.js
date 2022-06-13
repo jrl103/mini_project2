@@ -3,14 +3,15 @@ import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import {useSelector,useDispatch} from "react-redux";
 
+
 import { deleteDetail, getPost } from "../redux/modules/detail";
 import Comment from "../Comment";
 import axios from "axios";
 
 const Detail = () => {
 
-  // const detail_list = useSelector((state) => state.detail.list);
-  // const comment_list = useSelector((state) => state.comment.list);
+  const detail_list = useSelector((state) => state.detail.list);
+  const comment_list = useSelector((state) => state.comment.list);
 
   const navigate = useNavigate();
   const params = useParams();
@@ -20,7 +21,7 @@ const Detail = () => {
   // const data = useSelector((state) => state.detail);
   
   useEffect(() => {
-    // dispatch(getPost(Number(detail_id)));
+    dispatch(getPost(Number(detail_id)));
   },[]);
 
   useEffect(() => {
@@ -40,10 +41,10 @@ const Detail = () => {
   const [data, setData] = useState([]);
 
   const deletePost = (id) => {
-    // (async () => await axios.delete(`http://localhost:5001/post/${id}`))()
-    // .then((response) => {
-    //     setData((current) => current.filter((v) => v.id !== id));
-    // });
+    (async () => await axios.delete(`http://localhost:5001/post/${id}`))()
+    .then((response) => {
+        setData((current) => current.filter((v) => v.id !== id));
+    });
 }
 
   return (
@@ -60,7 +61,7 @@ const Detail = () => {
             수정
           </UpdateBtn>
           <DeleteBtn onClick={() => {
-           dispatch(deletePost(detail_list[0]?.id))
+           dispatch(deleteDetail(detail_list[0]?.id))
           }}
           
           >삭제</DeleteBtn>

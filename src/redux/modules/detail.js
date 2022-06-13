@@ -18,15 +18,15 @@ export function deleteDetail(detail_index) {
 }
 
 //middlewares
-// export const getPost = (id) => {
-//   return async function (dispatch) {
-//     const data = await axios.get(`http://localhost:5001/post/${id}`);
-//     // console.log(data.data, "이거");
+export const getPost = (id) => {
+  return async function (dispatch) {
+    const data = await axios.get(`http://localhost:5001/post/${id}`);
+    // console.log(data.data, "이거");
 
-//     dispatch(loadDetail(data.data));
-//     // = dispatch({type : LOAD, Detail_list : data.data})
-//   };
-// };
+    dispatch(loadDetail(data.data));
+    // = dispatch({type : LOAD, Detail_list : data.data})
+  };
+};
 
 
 
