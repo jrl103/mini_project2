@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import {useSelector,useDispatch} from "react-redux";
-
-
-import { deleteDetail, getPost } from "../redux/modules/detail";
-import Comment from "../Comment";
 import axios from "axios";
+
+import { deleteDetail, getPost, loadDetail } from "../redux/modules/detail";
+import Comment from "../Comment";
+
 
 const Detail = () => {
 
-  const detail_list = useSelector((state) => state.detail.list);
-  const comment_list = useSelector((state) => state.comment.list);
+  // const detail_list = useSelector((state) => state.detail.list);
+  // const comment_list = useSelector((state) => state.comment.list);
 
   const navigate = useNavigate();
   const params = useParams();
@@ -21,12 +21,12 @@ const Detail = () => {
   // const data = useSelector((state) => state.detail);
   
   useEffect(() => {
-    dispatch(getPost(Number(detail_id)));
+    // dispatch(getPost(Number(detail_id)));
   },[]);
 
-  useEffect(() => {
-    console.log(detail_list);
-  },[detail_list])
+  // useEffect(() => {
+  //   console.log(detail_list);
+  // },[detail_list])
 
   // const detail = detail_list.filter((value) => {
   //   if (value.id === Number(params.id)) {
@@ -40,6 +40,13 @@ const Detail = () => {
   
   const [data, setData] = useState([]);
 
+  useEffect(() => { // async await
+    (async () => await axios.get(`http://localhost:5001/post/${params.id}`))()  // post id가 params.id인 코멘트 데이터를 요청
+    .then((response) => { // 위에가 잘 어떻게 돼서 결과 나왔는데 그 결과가 response
+        setData(response.data); // response.data 값을 data라는 useState에 담아줌
+    });
+}, []);
+
   const deletePost = (id) => {
     (async () => await axios.delete(`http://localhost:5001/post/${id}`))()
     .then((response) => {
@@ -50,7 +57,7 @@ const Detail = () => {
   return (
     <Wrap>
       <TitleBox>
-        <TitleText>{detail_list[0]?.title}</TitleText>
+        <TitleText>{data?.title}</TitleText>
         
         <TitleBtns>
           <UpdateBtn
@@ -61,7 +68,7 @@ const Detail = () => {
             수정
           </UpdateBtn>
           <DeleteBtn onClick={() => {
-           dispatch(deleteDetail(detail_list[0]?.id))
+           deletePost(data?.id)
           }}
           
           >삭제</DeleteBtn>
@@ -69,10 +76,10 @@ const Detail = () => {
       </TitleBox>
       <ContentBox>
         <ContentInfo>
-          <ContentNickname>{detail_list[0]?.nickname}</ContentNickname>
-          <Date>{detail_list[0]?.date}</Date>
+          <ContentNickname>{data?.nickname}</ContentNickname>
+          <Date>{data?.date}</Date>
         </ContentInfo>
-        <Content>{detail_list[0]?.contents}</Content>
+        <Content>{data?.contents}</Content>
       </ContentBox>
       <CommentBox>
         <CommentArticle>
