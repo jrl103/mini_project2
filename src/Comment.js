@@ -15,29 +15,29 @@ const Comment = () => {
     // put, patch => 편집 ( put 전체 편집 patch 일부 편집 )
     // delete => 삭제
     useEffect(() => { // async await
-        (async () => await axios.get(`http://localhost:5001/comment?postId=${params.id}`))()  // post id가 params.id인 코멘트 데이터를 요청
+        axios.get(`http://localhost:5001/comment?postId=${params.id}`)  // post id가 params.id인 코멘트 데이터를 요청
         .then((response) => { // 위에가 잘 어떻게 되서 결과 나왔는데 그 결과가 response
             setData(response.data); // response.data 값을 data라는 useState에 담아줌
         });
     }, []);
 
     const writeComment = (e) => {
-        (async () => await axios.post("http://localhost:5001/comment", { // http://localhost:5001/comment에다가 댓글을 추가해달라고 요청
+        axios.post("http://localhost:5001/comment", { // http://localhost:5001/comment에다가 댓글을 추가해달라고 요청
             // 그 안에 들어갈 데이터
             nickname: "가나다라",
             content: inputRef.current.value,
             postid: Number(params.id),
             createAt: "2015.12.12"
-        }))()
+        })
         .then((response) => { // 데이터가 잘 들어갔는지 나오는 그런 대충 그런거
             setData((current) => [...current, response.data]) // data에다가 response.data를 추가
         });
     }
 
     const modifyComment = (id) => {
-        (async () => await axios.patch(`http://localhost:5001/comment/${id}`,
+        axios.patch(`http://localhost:5001/comment/${id}`,
             { content: inputRef.current.value }
-        ))()
+        )
         .then((response) => { // reduce, filter, map, forEach
             setData((current) => current.map((comment) => {
                 if (comment.id === response.data.id) {
@@ -50,7 +50,7 @@ const Comment = () => {
     }
 
     const deleteComment = (id) => {
-        (async () => await axios.delete(`http://localhost:5001/comment/${id}`))()
+        axios.delete(`http://localhost:5001/comment/${id}`)
         .then((response) => {
             setData((current) => current.filter((v) => v.id !== id));
         });

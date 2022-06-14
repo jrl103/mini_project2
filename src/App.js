@@ -4,7 +4,6 @@ import { Route, Routes } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import Detail from "./page/Detail";
-import { loadDetail } from "./redux/modules/detail";
 import Create from "./page/Create";
 import Test from "./Test";
 

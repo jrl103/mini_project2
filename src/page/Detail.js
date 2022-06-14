@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import {useSelector,useDispatch} from "react-redux";
 import axios from "axios";
 
-import { deleteDetail, getPost, loadDetail } from "../redux/modules/detail";
 import Comment from "../Comment";
 
 
@@ -41,14 +40,14 @@ const Detail = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => { // async await
-    (async () => await axios.get(`http://localhost:5001/post/${params.id}`))()  // post id가 params.id인 코멘트 데이터를 요청
+    axios.get(`http://localhost:5001/post/${params.id}`)  // post id가 params.id인 코멘트 데이터를 요청
     .then((response) => { // 위에가 잘 어떻게 돼서 결과 나왔는데 그 결과가 response
         setData(response.data); // response.data 값을 data라는 useState에 담아줌
     });
 }, []);
 
   const deletePost = (id) => {
-    (async () => await axios.delete(`http://localhost:5001/post/${id}`))()
+    axios.delete(`http://localhost:5001/post/${id}`)
     .then((response) => {
         setData((current) => current.filter((v) => v.id !== id));
     });
