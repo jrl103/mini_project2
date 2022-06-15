@@ -52,9 +52,9 @@ function App() {
           element={<Detail/>}
         ></Route>
         <Route path="/test" element={<Test />} />
-        <Route path="/create" element={<Create/>}>
+        <Route path="/create" element={<Create/>}/>
+
         
-        </Route>
       </Routes>
     </div>
   );
